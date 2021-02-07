@@ -8,10 +8,4 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-#mybatis-plus
-#mybatis-plus:
-#  mapper-locations: classpath:com/eamondocker/mysqltest/mapper/xml/*.xml
-#  type-aliases-package: com.eamondocker.mysqltest.entity
-#自动将下划线格式的表字段，转换为以驼峰格式命名的属性
-#  configuration:
-#    map-underscore-to-camel-case: true
+
