@@ -29,8 +29,10 @@ public class testController {
     @GetMapping("/getUser")
     public List<User> getUser(){
         List<User> users = userMapper.selectList(null);
-
         return users;
-
     }
+
+    
+
+
 }
