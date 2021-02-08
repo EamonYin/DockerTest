@@ -31,8 +31,4 @@ public class testController {
         List<User> users = userMapper.selectList(null);
         return users;
     }
-
-    
-
-
 }
