@@ -52,11 +52,21 @@ public class testController implements Serializable {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        //将ip存入redis
-        redisTemplate.opsForValue().set("IP",ip4);
-        //从redis中读取ip
-        Object ip = redisTemplate.opsForValue().get("IP");
 
-        return "当前第: "+views+" 次访问"+" 当前IP:"+ip;
+        String ipAddr = ip4.toString();
+
+        //判断当前IP是否访问过改页
+        if(redisTemplate.hasKey("IP")&&ipAddr.equals(redisTemplate.opsForValue().get("IP").toString())){
+            return "当前IP:"+ipAddr+" 第: "+views+" 次访问";
+        }
+        //没有访问过，就把新的IP放到redis里面
+        else {
+            redisTemplate.delete("IP");
+            redisTemplate.delete("Views");
+            //将ip存入redis
+            redisTemplate.opsForValue().set("IP",ip4);
+            return "当前IP:"+ipAddr+" 第: "+views+" 次访问";
+        }
+
     }
 }
