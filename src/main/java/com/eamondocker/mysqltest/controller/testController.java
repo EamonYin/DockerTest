@@ -52,9 +52,11 @@ public class testController implements Serializable {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-
+        //将ip存入redis
         redisTemplate.opsForValue().set("IP",ip4);
+        //从redis中读取ip
+        Object ip = redisTemplate.opsForValue().get("IP");
 
-        return "当前浏览量为："+views+"次"+" 当前IP："+ip4;
+        return "当前第: "+views+" 次访问"+" 当前IP:"+ip;
     }
 }
