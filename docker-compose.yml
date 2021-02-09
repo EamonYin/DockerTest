@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  EamonTest:
+    build: .
+    image: eamontest
+    environment:
+      #这两个 host 正是对应 SpringBoot 项目的配置文件（application.yml）中两个 host
+      spring.datasource.host: mysql01
+      spring.redis.host: redis
+    depends_on:
+      - redis
+#     - mysql01
+    ports:
+      - "8080:8080"
+  redis:
+    image: "library/redis:alpine"
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./data/redis/:/data/
+      - ./log/redis/:/var/log/redis/
+    command: redis-server /usr/local/etc/redis/redis.conf
+    restart: always
