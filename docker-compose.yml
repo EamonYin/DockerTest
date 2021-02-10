@@ -1,24 +1,32 @@
 version: '3.8'
 services:
   EamonTest:
+    #指定Dockerfile文件位置，并使用这个镜像来启动容器
     build: .
+    #镜像名称
     image: eamontest
     environment:
-      #这两个 host 正是对应 SpringBoot 项目的配置文件（application.yml）中两个 host
+      #这两个 host 对应 SpringBoot 项目的配置文件（application.yml）中两个 host
       spring.datasource.host: mysql01
       spring.redis.host: redis
+    #依赖服务。在整个工程启动时，会先按顺序启动依赖服务，再启动EamonTest服务。
     depends_on:
       - redis
-#     - mysql01
+      - mysql01
     ports:
       - "8080:8080"
   redis:
+    #指定镜像来启动容器
     image: "library/redis:alpine"
+    #端口映射（宿主机端口:容器端口）
     ports:
       - "6379:6379"
+    #配置映射,（配置文件、数据目录、日志目录）
     volumes:
       - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
       - ./data/redis/:/data/
       - ./log/redis/:/var/log/redis/
+    #容器启动后通过配置文件来启动 Redis 容器
     command: redis-server /usr/local/etc/redis/redis.conf
+    #如果容器启动失败，会一直尝试重连
     restart: always
