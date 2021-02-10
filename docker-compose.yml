@@ -12,7 +12,6 @@ services:
     #依赖服务。在整个工程启动时，会先按顺序启动依赖服务，再启动EamonTest服务。
     depends_on:
       - redis
-      - mysql01
     ports:
       - "8080:8080"
   redis:
